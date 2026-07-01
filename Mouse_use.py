@@ -1,6 +1,5 @@
 import pyautogui
 import time
-
 def move_to( x, y, duration=0.5):
     pyautogui.moveTo(x, y, duration=duration)
     return 
