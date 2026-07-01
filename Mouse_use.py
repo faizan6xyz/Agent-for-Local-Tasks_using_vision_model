@@ -23,3 +23,9 @@ def get_position():
     pos = pyautogui.position()
     print(f"Current position: ({pos.x}, {pos.y})")
     return pos
+def wait(x):
+    time.sleep(x)
+def type_text(text, interval=0.05):
+    pyautogui.write(text, interval=interval)
+    print(f"Typed: {text}")
+    return
