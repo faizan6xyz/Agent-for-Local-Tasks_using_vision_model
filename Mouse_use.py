@@ -19,10 +19,6 @@ def drag_to( x, y, duration=0.5, button='left'):
     pyautogui.dragTo(x, y, duration=duration, button=button)
     print(f"Dragged to ({x}, {y})")
     return 
-def get_position():
-    pos = pyautogui.position()
-    print(f"Current position: ({pos.x}, {pos.y})")
-    return pos
 def wait(x):
     time.sleep(x)
 def type_text(text, interval=0.05):

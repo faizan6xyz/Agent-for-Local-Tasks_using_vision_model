@@ -1,3 +1,4 @@
+import json
 import os
 import gc
 import torch
@@ -28,18 +29,44 @@ processor = AutoProcessor.from_pretrained(
     min_pixels=256 * 28 * 28,
     max_pixels=512 * 28 * 28
 )
+def create_vlm_prompt(goal):
+    system_instruction = """You are an expert Browser Automation Agent. 
+Your task is to analyze the provided screenshot of a 1920x1080 desktop and determine the single best next action to achieve the user's goal.
 
-print("Model loaded successfully.")
+Rules:
+1. The screen resolution is strictly 1920x1080. Coordinates must be within this range.
+2. Identify interactive elements: buttons, links, input fields, checkboxes.
+3. If the goal is already achieved, return action "done".
+4. If you need to type, specify the text clearly.
+5. Return ONLY valid JSON. No markdown, no extra text."""
 
-def describe_image(image_path, Botton= "update", prompt: str = None, max_new_tokens: int = 300):
+    user_prompt = f"""
+GOAL: "{goal}"
+
+Analyze the current state of the desktop in the screenshot. 
+What is the specific next step to move closer to the goal?
+
+Provide your response in this exact JSON format:
+{{
+    "action": "click" |"move to" |"drag to" |"double click" | "type" | "scroll" | "wait" | "done",
+    "target_element": "Brief description of the element (e.g., 'Blue Search Button')",
+    "coordinates": {{
+        "x": <int>, 
+        "y": <int>
+    }},
+    "text_input": "<string if action is type, else null>",
+    "reasoning": "Why this action is necessary now."
+}}
+"""
+    return system_instruction, user_prompt
+def describe_image(goal, image_path,  prompt: str = None, max_new_tokens: int = 300):
     if prompt is None:
-        prompt = f"This is a 1920x1080 desktop screenshot. Identify the {Botton} s. Return ONLY the bounding box coordinates [x_min, y_min, x_max, y_max] in JSON format."
+        prompt = create_vlm_prompt(goal)
     torch.cuda.empty_cache()
     gc.collect()
     img = Image.open(image_path).convert("RGB")
     target_size = 640
     img.thumbnail((target_size, target_size), Image.LANCZOS)
-    
     folder_path = os.path.dirname(image_path)
     resized_path = os.path.join(folder_path, "temp_resized.jpg")
     img.save(resized_path, quality=85) 
