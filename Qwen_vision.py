@@ -31,7 +31,7 @@ processor = AutoProcessor.from_pretrained(
 
 print("Model loaded successfully.")
 
-def describe_image(image_path, Botton , prompt: str = None, max_new_tokens: int = 300):
+def describe_image(image_path, Botton= "update", prompt: str = None, max_new_tokens: int = 300):
     if prompt is None:
         prompt = f"This is a 1920x1080 desktop screenshot. Identify the {Botton} s. Return ONLY the bounding box coordinates [x_min, y_min, x_max, y_max] in JSON format."
     torch.cuda.empty_cache()
@@ -78,14 +78,8 @@ def describe_image(image_path, Botton , prompt: str = None, max_new_tokens: int 
     return response
 if __name__ == "__main__":
     os.makedirs("data", exist_ok=True)
-    image_file = "data/screenshot_2026-07-01_16-17-06.png"
-    
+    image_file = "data/screenshot_2026-07-01_16-49-55.png"
     if os.path.exists(image_file):
         print("Analyzing image...")
         result = describe_image(image_file)
-        print("-" * 20)
-        print("LLM Response:")
         print(result)
-        print("-" * 20)
-    else:
-        print(f"Error: {image_file} not found. Please take a screenshot first.")
