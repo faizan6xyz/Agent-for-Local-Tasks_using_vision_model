@@ -127,7 +127,6 @@ def execute_action(action_dict):
     text_input = action_dict.get("text_input")
     print(f"  -> action={action} target='{action_dict.get('target_element')}' "
           f"coords=({x},{y}) reasoning={action_dict.get('reasoning')}")
-
     if action == "click":
         click_at(x, y)
     elif action == "double_click":
@@ -152,7 +151,6 @@ def execute_action(action_dict):
         return True
     else:
         print(f"  Warning: unknown action '{action}', skipping.")
-
     return False
 def run_agent(goal, max_steps=15, delay_between_steps=1.5):
     os.makedirs("data", exist_ok=True)
@@ -173,5 +171,5 @@ def run_agent(goal, max_steps=15, delay_between_steps=1.5):
         time.sleep(delay_between_steps)
     print(f"\nReached max_steps={max_steps} without the model reporting 'done'.")
 if __name__ == "__main__":
-    goal = "open VLC"
+    goal = input("enter your goal : ")
     run_agent(goal, max_steps=15)
