@@ -155,7 +155,6 @@ def execute_action(action_dict):
 def run_agent(goal, max_steps=15, delay_between_steps=1.5):
     os.makedirs("data", exist_ok=True)
     for step in range(1, max_steps + 1):
-        print(f"\n=== Step {step}/{max_steps} ===")
         screenshot_path = take_full_screenshot()
         print(f"Screenshot: {screenshot_path}")
         try:
