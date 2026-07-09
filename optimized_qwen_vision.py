@@ -188,4 +188,4 @@ def run_agent(goal, max_steps=15, delay_between_steps=1.5):
     print(f"\nReached max_steps={max_steps} without the model reporting 'done'.")
 if __name__ == "__main__":
     goal = input("enter your goal : ")
-    run_agent(goal, max_steps=15)
+    run_agent(goal, max_steps=10)
