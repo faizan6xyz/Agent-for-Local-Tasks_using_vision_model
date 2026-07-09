@@ -151,8 +151,7 @@ def _action_signature(action_dict):
         action_dict.get("action"),
         coords.get("x"),
         coords.get("y"),
-        action_dict.get("text_input"),
-    )
+        action_dict.get("text_input"),)
 def run_agent(goal, max_steps=15, delay_between_steps=1.5):
     os.makedirs("data", exist_ok=True)
     last_signature = None
@@ -189,3 +188,4 @@ def run_agent(goal, max_steps=15, delay_between_steps=1.5):
 if __name__ == "__main__":
     goal = input("enter your goal : ")
     run_agent(goal, max_steps=10)
+    
